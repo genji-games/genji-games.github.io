@@ -220,29 +220,11 @@
     }
 
     .game-icon.fa-icon {
-      background: linear-gradient(135deg, #3b1f7a, #5b21b6);
       box-shadow: 0 0 0 1px rgba(124,58,237,0.5), 0 8px 24px rgba(124,58,237,0.3);
     }
 
     .game-icon.mm-icon {
-      background: linear-gradient(135deg, #78350f, #b45309);
       box-shadow: 0 0 0 1px rgba(245,158,11,0.5), 0 8px 24px rgba(245,158,11,0.25);
-    }
-
-    /* Arrow SVG inside FA icon */
-    .fa-icon svg { width: 38px; height: 38px; }
-
-    /* Tile grid inside MM icon */
-    .mm-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5px;
-      padding: 2px;
-    }
-    .mm-tile {
-      width: 22px;
-      height: 22px;
-      border-radius: 5px;
     }
 
     .game-meta { display: flex; align-items: center; gap: 1.25rem; }
@@ -386,10 +368,7 @@
       <article class="game-card fa">
         <div class="game-meta">
           <div class="game-icon fa-icon">
-            <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="19" cy="19" r="17" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.5"/>
-              <path d="M11 19h16M21 13l6 6-6 6" stroke="#e9d5ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <img src="flick-arrow-icon.png" alt="Flick Arrow" width="72" height="72" style="border-radius:18px;display:block;">
           </div>
           <div class="game-info">
             <h2 class="game-name">Flick Arrow</h2>
@@ -418,12 +397,7 @@
       <article class="game-card mm">
         <div class="game-meta">
           <div class="game-icon mm-icon">
-            <div class="mm-grid">
-              <div class="mm-tile" style="background:#ef4444;"></div>
-              <div class="mm-tile" style="background:#3b82f6;"></div>
-              <div class="mm-tile" style="background:#22c55e;"></div>
-              <div class="mm-tile" style="background:#f59e0b;"></div>
-            </div>
+            <img src="matchy-matchy-icon.png" alt="Matchy Matchy" width="72" height="72" style="border-radius:18px;display:block;">
           </div>
           <div class="game-info">
             <h2 class="game-name">Matchy Matchy</h2>
