@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genji Games — Indie Mobile Games</title>
+  <meta name="description" content="Genji Games makes handcrafted mobile games. Flick Arrow, Matchy Matchy, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0E0E1B;
+      --bg2:       #13132a;
+      --text:      #F8FAFC;
+      --muted:     #6b7280;
+      --border:    rgba(255,255,255,0.08);
+      --fa:        #7C3AED;
+      --fa-glow:   rgba(124,58,237,0.35);
+      --fa-cyan:   #22D3EE;
+      --mm:        #F59E0B;
+      --mm-glow:   rgba(245,158,11,0.3);
+      --mm-pink:   #F472B6;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Noise overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      padding: clamp(5rem, 14vw, 10rem) clamp(1.5rem, 6vw, 5rem) clamp(3rem, 8vw, 6rem);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 50%, rgba(124,58,237,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(34,211,238,0.07) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* Scanlines */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+      );
+      pointer-events: none;
+    }
+
+    .hero-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      color: var(--fa-cyan);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.1s;
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(4rem, 14vw, 11rem);
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-title .line1 {
+      display: block;
+      opacity: 0;
+      animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards 0.2s;
+    }
+
+    .hero-title .line2 {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(248,250,252,0.25);
+      opacity: 0;
+      animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards 0.35s;
+    }
+
+    .hero-sub {
+      margin-top: 2.5rem;
+      font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+      color: var(--muted);
+      max-width: 38ch;
+      line-height: 1.7;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.5s;
+    }
+
+    .hero-sub strong { color: var(--text); font-weight: 500; }
+
+    /* ── GAMES SECTION ── */
+    .section {
+      padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 6vw, 5rem);
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 700px) {
+      .games-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .game-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+      opacity: 0;
+      animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+
+    .game-card:nth-child(1) { animation-delay: 0.15s; }
+    .game-card:nth-child(2) { animation-delay: 0.3s; }
+
+    .game-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      transition: opacity 0.3s;
+      opacity: 0.7;
+    }
+
+    .game-card.fa::before  { background: linear-gradient(90deg, var(--fa), var(--fa-cyan)); }
+    .game-card.mm::before  { background: linear-gradient(90deg, var(--mm), var(--mm-pink)); }
+
+    .game-card:hover { transform: translateY(-3px); }
+    .game-card.fa:hover { border-color: rgba(124,58,237,0.4); box-shadow: 0 12px 40px var(--fa-glow); }
+    .game-card.mm:hover { border-color: rgba(245,158,11,0.4); box-shadow: 0 12px 40px var(--mm-glow); }
+
+    /* Card glow bg on hover */
+    .game-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+    .game-card.fa::after  { background: radial-gradient(ellipse at top left, rgba(124,58,237,0.07), transparent 60%); }
+    .game-card.mm::after  { background: radial-gradient(ellipse at top left, rgba(245,158,11,0.06), transparent 60%); }
+    .game-card:hover::after { opacity: 1; }
+
+    /* Icon placeholder */
+    .game-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .game-icon.fa-icon {
+      background: linear-gradient(135deg, #3b1f7a, #5b21b6);
+      box-shadow: 0 0 0 1px rgba(124,58,237,0.5), 0 8px 24px rgba(124,58,237,0.3);
+    }
+
+    .game-icon.mm-icon {
+      background: linear-gradient(135deg, #78350f, #b45309);
+      box-shadow: 0 0 0 1px rgba(245,158,11,0.5), 0 8px 24px rgba(245,158,11,0.25);
+    }
+
+    /* Arrow SVG inside FA icon */
+    .fa-icon svg { width: 38px; height: 38px; }
+
+    /* Tile grid inside MM icon */
+    .mm-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+      padding: 2px;
+    }
+    .mm-tile {
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+    }
+
+    .game-meta { display: flex; align-items: center; gap: 1.25rem; }
+
+    .game-info { flex: 1; }
+
+    .game-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.4rem, 3vw, 1.75rem);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .fa .game-name { color: #c4b5fd; }
+    .mm .game-name { color: #fcd34d; }
+
+    .game-tag {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+      font-weight: 500;
+    }
+
+    .fa .game-tag  { background: rgba(124,58,237,0.2); color: #a78bfa; border: 1px solid rgba(124,58,237,0.3); }
+    .mm .game-tag  { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+
+    .game-desc {
+      font-size: 0.82rem;
+      line-height: 1.75;
+      color: #94a3b8;
+    }
+
+    /* Store buttons */
+    .store-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-top: auto;
+    }
+
+    @media (min-width: 480px) {
+      .store-buttons { flex-direction: row; }
+    }
+
+    .store-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 1.1rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      transition: background 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+
+    .fa .store-btn:hover  { background: rgba(124,58,237,0.15); border-color: rgba(124,58,237,0.5); }
+    .mm .store-btn:hover  { background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.5); }
+
+    .store-btn svg { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.8; }
+
+    .store-btn-label { line-height: 1.1; }
+    .store-btn-label span { display: block; font-size: 0.58rem; color: var(--muted); letter-spacing: 0.05em; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem clamp(1.5rem, 6vw, 5rem);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .footer-brand {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+    }
+
+    .footer-right {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.75rem;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--text); }
+
+    .footer-copy {
+      font-size: 0.7rem;
+      color: #374151;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+    <p class="hero-label">Independent Game Studio</p>
+    <h1 class="hero-title">
+      <span class="line1">Genji</span>
+      <span class="line2">Games</span>
+    </h1>
+    <p class="hero-sub">We make <strong>small, focused games</strong> for mobile — tight mechanics, no filler, just play.</p>
+  </header>
+
+  <!-- GAMES -->
+  <main class="section">
+    <p class="section-label">Our games</p>
+
+    <div class="games-grid">
+
+      <!-- Flick Arrow -->
+      <article class="game-card fa">
+        <div class="game-meta">
+          <div class="game-icon fa-icon">
+            <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="19" cy="19" r="17" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.5"/>
+              <path d="M11 19h16M21 13l6 6-6 6" stroke="#e9d5ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="game-info">
+            <h2 class="game-name">Flick Arrow</h2>
+            <span class="game-tag">Arcade · Reflex</span>
+          </div>
+        </div>
+
+        <p class="game-desc">
+          Swipe each arrow in the right direction before the timer hits zero.
+          Simple premise. Brutal execution. How far can your reflexes take you?
+        </p>
+
+        <div class="store-buttons">
+          <a href="#" class="store-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <span class="store-btn-label"><span>Available on</span>App Store</span>
+          </a>
+          <a href="#" class="store-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76a2 2 0 0 0 2.12-.22l.05-.04 11.9-6.87-.04-.04-3.24-3.24-10.79 10.41zm16.31-9.67L16.96 12.5l3.2-3.2-1.42-1.42-3.2 3.2-3.2-3.2-1.42 1.42 3.2 3.2-3.2 3.2 1.42 1.42 3.2-3.2 3.2 3.2 1.41-1.41zM3.15.29a1.997 1.997 0 0 0-.93 1.74v19.94c0 .72.39 1.38.96 1.74L14.04 12.5 3.15.29z"/></svg>
+            <span class="store-btn-label"><span>Get it on</span>Google Play</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Matchy Matchy -->
+      <article class="game-card mm">
+        <div class="game-meta">
+          <div class="game-icon mm-icon">
+            <div class="mm-grid">
+              <div class="mm-tile" style="background:#ef4444;"></div>
+              <div class="mm-tile" style="background:#3b82f6;"></div>
+              <div class="mm-tile" style="background:#22c55e;"></div>
+              <div class="mm-tile" style="background:#f59e0b;"></div>
+            </div>
+          </div>
+          <div class="game-info">
+            <h2 class="game-name">Matchy Matchy</h2>
+            <span class="game-tag">Puzzle · Matching</span>
+          </div>
+        </div>
+
+        <p class="game-desc">
+          Match tiles by color, shape, or both — across Classic and Sprint modes.
+          Easy to pick up, surprisingly hard to master.
+        </p>
+
+        <div class="store-buttons">
+          <a href="#" class="store-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <span class="store-btn-label"><span>Available on</span>App Store</span>
+          </a>
+          <a href="#" class="store-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76a2 2 0 0 0 2.12-.22l.05-.04 11.9-6.87-.04-.04-3.24-3.24-10.79 10.41zm16.31-9.67L16.96 12.5l3.2-3.2-1.42-1.42-3.2 3.2-3.2-3.2-1.42 1.42 3.2 3.2-3.2 3.2 1.42 1.42 3.2-3.2 3.2 3.2 1.41-1.41zM3.15.29a1.997 1.997 0 0 0-.93 1.74v19.94c0 .72.39 1.38.96 1.74L14.04 12.5 3.15.29z"/></svg>
+            <span class="store-btn-label"><span>Get it on</span>Google Play</span>
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-brand">GENJI GAMES</span>
+    <div class="footer-right">
+      <a href="mailto:genji.games08@gmail.com">genji.games08@gmail.com</a>
+      <span class="footer-copy">© 2026</span>
+    </div>
+  </footer>
+
+</body>
+</html>
