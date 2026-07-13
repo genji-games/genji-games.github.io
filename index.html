@@ -24,6 +24,9 @@
       --mm:        #F59E0B;
       --mm-glow:   rgba(245,158,11,0.3);
       --mm-pink:   #F472B6;
+      --an:        #10B981;
+      --an-glow:   rgba(16,185,129,0.3);
+      --an-lime:   #A3E635;
     }
 
     html { scroll-behavior: smooth; }
@@ -178,6 +181,7 @@
 
     .game-card:nth-child(1) { animation-delay: 0.15s; }
     .game-card:nth-child(2) { animation-delay: 0.3s; }
+    .game-card:nth-child(3) { animation-delay: 0.45s; }
 
     .game-card::before {
       content: '';
@@ -190,10 +194,12 @@
 
     .game-card.fa::before  { background: linear-gradient(90deg, var(--fa), var(--fa-cyan)); }
     .game-card.mm::before  { background: linear-gradient(90deg, var(--mm), var(--mm-pink)); }
+    .game-card.an::before  { background: linear-gradient(90deg, var(--an), var(--an-lime)); }
 
     .game-card:hover { transform: translateY(-3px); }
     .game-card.fa:hover { border-color: rgba(124,58,237,0.4); box-shadow: 0 12px 40px var(--fa-glow); }
     .game-card.mm:hover { border-color: rgba(245,158,11,0.4); box-shadow: 0 12px 40px var(--mm-glow); }
+    .game-card.an:hover { border-color: rgba(16,185,129,0.4); box-shadow: 0 12px 40px var(--an-glow); }
 
     /* Card glow bg on hover */
     .game-card::after {
@@ -206,6 +212,7 @@
     }
     .game-card.fa::after  { background: radial-gradient(ellipse at top left, rgba(124,58,237,0.07), transparent 60%); }
     .game-card.mm::after  { background: radial-gradient(ellipse at top left, rgba(245,158,11,0.06), transparent 60%); }
+    .game-card.an::after  { background: radial-gradient(ellipse at top left, rgba(16,185,129,0.07), transparent 60%); }
     .game-card:hover::after { opacity: 1; }
 
     /* Icon placeholder */
@@ -228,6 +235,10 @@
       box-shadow: 0 0 0 1px rgba(245,158,11,0.5), 0 8px 24px rgba(245,158,11,0.25);
     }
 
+    .game-icon.an-icon {
+      box-shadow: 0 0 0 1px rgba(16,185,129,0.5), 0 8px 24px rgba(16,185,129,0.3);
+    }
+
     .game-meta { display: flex; align-items: center; gap: 1.25rem; }
 
     .game-info { flex: 1; }
@@ -242,6 +253,7 @@
 
     .fa .game-name { color: #c4b5fd; }
     .mm .game-name { color: #fcd34d; }
+    .an .game-name { color: #6ee7b7; }
 
     .game-tag {
       display: inline-block;
@@ -256,12 +268,17 @@
 
     .fa .game-tag  { background: rgba(124,58,237,0.2); color: #a78bfa; border: 1px solid rgba(124,58,237,0.3); }
     .mm .game-tag  { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+    .an .game-tag  { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
 
     .game-desc {
       font-size: 0.82rem;
       line-height: 1.75;
       color: #94a3b8;
     }
+
+    .game-credit { font-size: 0.68rem; color: var(--muted); }
+    .game-credit a { color: #34d399; text-decoration: none; }
+    .game-credit a:hover { text-decoration: underline; }
 
     /* Store buttons */
     .store-buttons {
@@ -295,6 +312,7 @@
 
     .fa .store-btn:hover  { background: rgba(124,58,237,0.15); border-color: rgba(124,58,237,0.5); }
     .mm .store-btn:hover  { background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.5); }
+    .an .store-btn:hover  { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.5); }
 
     .store-btn svg { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.8; }
 
@@ -417,6 +435,41 @@
             <span class="store-btn-label"><span>Available on</span>App Store</span>
           </a>
           <a href="https://play.google.com/store/apps/details?id=com.genjigames.matchymatchy" class="store-btn" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76a2 2 0 0 0 2.12-.22l.05-.04 11.9-6.87-.04-.04-3.24-3.24-10.79 10.41zm16.31-9.67L16.96 12.5l3.2-3.2-1.42-1.42-3.2 3.2-3.2-3.2-1.42 1.42 3.2 3.2-3.2 3.2 1.42 1.42 3.2-3.2 3.2 3.2 1.41-1.41zM3.15.29a1.997 1.997 0 0 0-.93 1.74v19.94c0 .72.39 1.38.96 1.74L14.04 12.5 3.15.29z"/></svg>
+            <span class="store-btn-label"><span>Get it on</span>Google Play</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Annette -->
+      <article class="game-card an">
+        <div class="game-meta">
+          <div class="game-icon an-icon">
+            <img src="annette-icon.png" alt="Annette" width="72" height="72" style="border-radius:18px;display:block;">
+          </div>
+          <div class="game-info">
+            <h2 class="game-name">Annette</h2>
+            <span class="game-tag">Food & Drink · Recipes</span>
+          </div>
+        </div>
+
+        <p class="game-desc">
+          Never know what to cook? Annette answers the only question that matters at dinnertime.
+          Tell it your mood, pick a protein and a cuisine, and it serves up recipes that fit —
+          no endless scrolling, works fully offline.
+        </p>
+
+        <p class="game-credit">
+          Built with <a href="https://github.com/anthony-dgx" target="_blank" rel="noopener">anthony-dgx</a>
+        </p>
+
+        <!-- TODO: store links -->
+        <div class="store-buttons">
+          <a href="#" class="store-btn" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <span class="store-btn-label"><span>Available on</span>App Store</span>
+          </a>
+          <a href="#" class="store-btn" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76a2 2 0 0 0 2.12-.22l.05-.04 11.9-6.87-.04-.04-3.24-3.24-10.79 10.41zm16.31-9.67L16.96 12.5l3.2-3.2-1.42-1.42-3.2 3.2-3.2-3.2-1.42 1.42 3.2 3.2-3.2 3.2 1.42 1.42 3.2-3.2 3.2 3.2 1.41-1.41zM3.15.29a1.997 1.997 0 0 0-.93 1.74v19.94c0 .72.39 1.38.96 1.74L14.04 12.5 3.15.29z"/></svg>
             <span class="store-btn-label"><span>Get it on</span>Google Play</span>
           </a>
